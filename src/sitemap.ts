@@ -4,8 +4,7 @@
 /// <reference lib="deno.ns" />
 /// <reference lib="deno.unstable" />
 
-import { filterFiles } from "https://deno.land/x/glob_filter@1.0.0/mod.ts";
-import { basename, extname } from "./deps.ts";
+import { basename, extname, filterFiles } from "./deps.ts";
 import { type Manifest, type Route, type RouteProps } from "./types.ts";
 
 export class SitemapContext {
@@ -89,10 +88,15 @@ export class SitemapContext {
   }
 
   remove(route: string) {
-	// glob_filter works best with absolute paths
-	// so we need to add the url to the route
-	const matching = filterFiles(this.#routes.map((r) => this.#url + r.pathName), { match: this.#url + route, ignore: this.#globalIgnore })
-	this.#routes = this.#routes.filter((r) => !matching.map((m) => m.replace(this.#url, "")).includes(r.pathName))
+    // glob_filter works best with absolute paths
+    // so we need to add the url to the route
+    const matching = filterFiles(
+      this.#routes.map((r) => this.#url + r.pathName),
+      { match: this.#url + route, ignore: this.#globalIgnore },
+    );
+    this.#routes = this.#routes.filter((r) =>
+      !matching.map((m) => m.replace(this.#url, "")).includes(r.pathName)
+    );
 
     return this;
   }
@@ -105,7 +109,7 @@ export class SitemapContext {
         .map((route) => {
           return `<url>
           <loc>${this.#url}${route.pathName}</loc>
-          <lastmod>${formatYearMonthDate(route.lastmod??new Date())}</lastmod>
+          <lastmod>${formatYearMonthDate(route.lastmod ?? new Date())}</lastmod>
           <changefreq>${route.changefreq ?? "daily"}</changefreq>
           <priority>${route.priority ?? "0.8"}</priority>
         </url>`;
