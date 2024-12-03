@@ -18,10 +18,9 @@ export class SitemapContext {
     this.#manifest = manifest;
     this.#routes = Object.entries(this.#manifest.routes)
       .filter(([path]) => {
-        // const isRootRoute = "./routes" === dirname(path);
         const file = basename(path);
         const fileName = file.replace(extname(file), "");
-        const isDynamic = !!fileName.match(/^\[.+\]$/)?.length;
+        const isDynamic = !!path.match(/\[.+\]/)?.length;
 
         if (
           isDynamic ||
@@ -33,7 +32,7 @@ export class SitemapContext {
 
         return true;
       })
-      .map(([path, route]) => {
+      .map(([path]) => {
         return {
           pathName: path
             .replace(extname(path), "")
