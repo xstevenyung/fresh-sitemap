@@ -4,8 +4,8 @@
 /// <reference lib="deno.ns" />
 /// <reference lib="deno.unstable" />
 
-import { basename, extname, filterFiles } from "./deps.ts";
-import { type Manifest, type Route, type RouteProps } from "./types.ts";
+import { basename, extname, filterFiles, Manifest } from "./deps.ts";
+import { type Route, type RouteProps } from "./types.ts";
 
 export class SitemapContext {
   #url: string;

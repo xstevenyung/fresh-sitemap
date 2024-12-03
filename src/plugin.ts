@@ -1,5 +1,6 @@
 import { SitemapContext } from "./sitemap.ts";
-import { Manifest, Plugin, RouteProps } from "./types.ts";
+import { RouteProps } from "./types.ts";
+import { Manifest, Plugin } from "./deps.ts";
 
 interface PluginOptions {
   include?: Array<string | { path: string; options: RouteProps }>;

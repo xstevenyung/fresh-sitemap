@@ -5,7 +5,8 @@ import {
   assertThrows,
   FakeTime,
 } from "../src/deps.ts";
-import { ChangeFrequency, Manifest, Priority } from "../src/types.ts";
+import { ChangeFrequency, Priority } from "../src/types.ts";
+import { Manifest } from "../src/deps.ts";
 
 const url = "https://deno.land";
 Deno.env.set("APP_URL", url);
