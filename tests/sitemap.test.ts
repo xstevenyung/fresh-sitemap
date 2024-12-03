@@ -219,12 +219,12 @@ Deno.test("Remove certain routes", () => {
 
 Deno.test("Remove all routes from /api", () => {
   const manifest: Manifest = {
-  	routes: {
-	  "./routes/blog/[slug].tsx": { default: () => null },
-	  "./routes/api/[...rest].tsx": { default: () => null },
-	},
-	islands: {},
-	baseUrl: url,
+    routes: {
+      "./routes/blog/[slug].tsx": { default: () => null },
+      "./routes/api/[...rest].tsx": { default: () => null },
+    },
+    islands: {},
+    baseUrl: url,
   };
   const sitemap = new SitemapContext(url, manifest);
 
@@ -232,12 +232,12 @@ Deno.test("Remove all routes from /api", () => {
 
   assertStringIncludes(result, '<?xml version="1.0" encoding="UTF-8"?>');
   assertStringIncludes(
-  	result,
-	'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    result,
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
   );
 
   assertThrows(() =>
-  	assertStringIncludes(result, "<loc>https://deno.land/api</loc>")
+    assertStringIncludes(result, "<loc>https://deno.land/api</loc>")
   );
 
   assertStringIncludes(result, "</urlset>");
