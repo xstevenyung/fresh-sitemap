@@ -1,19 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-
-export interface Plugin {
-  name: string;
-  routes: {
-	path: string;
-	handler: (req: Request) => Response;
-  }[];
-}
-
-export interface Manifest {
-  routes: Record<string, any>;
-  islands: Record<string, any>;
-  baseUrl: string;
-}
-
 export interface Route {
   pathName: string;
   changefreq?: ChangeFrequency;

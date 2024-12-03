@@ -1,41 +1,47 @@
 import { SitemapContext } from "./sitemap.ts";
-import { Manifest, Plugin, RouteProps } from "./types.ts";
+import { RouteProps } from "./types.ts";
+import { Manifest, Plugin } from "./deps.ts";
 
 interface PluginOptions {
-	include?: Array<string | { path: string, options: RouteProps }>
-	exclude?: Array<string>
+  include?: Array<string | { path: string; options: RouteProps }>;
+  exclude?: Array<string>;
 }
 
-export const freshSEOPlugin = (manifest: Manifest, opts: PluginOptions = {}): Plugin => {
-	return {
-		name: "fresh-seo",
-		routes: [
-			{
-				path: "/sitemap.xml",
-				handler: (req) => {
-					const sitemap = new SitemapContext(req.url.replace("/sitemap.xml", ""), manifest);
+export const freshSEOPlugin = (
+  manifest: Manifest,
+  opts: PluginOptions = {},
+): Plugin => {
+  return {
+    name: "fresh-seo",
+    routes: [
+      {
+        path: "/sitemap.xml",
+        handler: (req) => {
+          const sitemap = new SitemapContext(
+            req.url.replace("/sitemap.xml", ""),
+            manifest,
+          );
 
-					if (opts.include) {
-						opts.include.forEach((route) => {
-							if (typeof route === "string") {
-								sitemap.add(route);
-								return;
-							}
+          if (opts.include) {
+            opts.include.forEach((route) => {
+              if (typeof route === "string") {
+                sitemap.add(route);
+                return;
+              }
 
-							sitemap.add(route.path, route.options);
-						})
-					}
+              sitemap.add(route.path, route.options);
+            });
+          }
 
-					if (opts.exclude) {
-						opts.exclude.forEach((path) => {
-							sitemap.remove(path);
-						})
-					}
+          if (opts.exclude) {
+            opts.exclude.forEach((path) => {
+              sitemap.remove(path);
+            });
+          }
 
-
-					return sitemap.render();
-				}
-			}
-		]
-	}
-}
+          return sitemap.render();
+        },
+      },
+    ],
+  };
+};
