@@ -1,0 +1,16 @@
+This project was forked and continued from https://github.com/xstevenyung/fresh-seo
+
+v 1.0.2  (Dec 11, 2024)
+  Resolved issue: https://github.com/xstevenyung/fresh-seo/issues/27
+  Now works with Deno 2.0+
+
+  `save()` function uncommented and implemented: https://github.com/xstevenyung/fresh-seo/blob/main/src/sitemap.ts#L124
+
+  Added new `freshSEOPlugin()` options:
+    - `static: true`: allows to save sitemap.xml as file into `staticDir`, omitting route-level generation
+    - while `static: true`, `deno task build` will also generate sitemap.xml file (`buildStart()` hook added)
+
+  Resolved issue with dynamic routes on folder level: https://github.com/xstevenyung/fresh-seo/issues/28
+
+  Tests added:
+  - `Deno.test("Generate static sitemap.xml file")`
