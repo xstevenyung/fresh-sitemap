@@ -97,6 +97,24 @@ await start(manifest, {
 ```
 
 While `static:true`, sitemap.xml also generates during Fresh `deno task build`.
+Note that `deno task build` does not know anything about routing, so you will need to provide `staticPrefix` to avoid relative paths generation:
+
+```ts
+// ./main.ts
+import { start } from "$fresh/server.ts";
+import manifest from "./fresh.gen.ts";
+
+import { freshSEOPlugin } from "https://deno.land/x/fresh_seo/mod.ts";
+
+await start(manifest, {
+  plugins: [
+    freshSEOPlugin(manifest, {
+        static: true,
+        staticPrefix: "https://yourhost.com"
+    })
+  ],
+});
+```
 
 <br>
 

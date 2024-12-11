@@ -9,6 +9,7 @@ v 1.0.2  (Dec 11, 2024)
   Added new `freshSEOPlugin()` options:
     - `static: true`: allows to save sitemap.xml as file into `staticDir`, omitting route-level generation
     - while `static: true`, `deno task build` will also generate sitemap.xml file (`buildStart()` hook added)
+    - `staticPrefix` must be filled too to avoid relative path (since Fresh does not know routes before server start)
 
   Resolved issue with dynamic routes on folder level: https://github.com/xstevenyung/fresh-seo/issues/28
 

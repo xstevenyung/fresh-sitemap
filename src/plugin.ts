@@ -6,6 +6,7 @@ interface PluginOptions {
   include?: Array<string | { path: string; options: RouteProps }>;
   exclude?: Array<string>;
   static?: boolean;
+  staticPrefix?: string;
 }
 
 export const freshSEOPlugin = (
@@ -57,7 +58,7 @@ export const freshSEOPlugin = (
     ],
     async buildStart(config) {
       if (opts.static === true) {
-        const sitemap = new SitemapContext("", manifest);
+        const sitemap = new SitemapContext(opts.staticPrefix ?? "", manifest);
         resolvePluginOptions(sitemap, opts, config);
         await sitemap.save(config.staticDir).then(() => {
           console.log(
