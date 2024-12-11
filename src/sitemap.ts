@@ -4,9 +4,15 @@
 /// <reference lib="deno.ns" />
 /// <reference lib="deno.unstable" />
 
-import { filterFiles } from "https://deno.land/x/glob_filter@1.0.0/mod.ts";
-import { basename, extname } from "./deps.ts";
-import { type Manifest, type Route, type RouteProps } from "./types.ts";
+import {
+  basename,
+  ensureFile,
+  extname,
+  filterFiles,
+  join,
+  Manifest,
+} from "./deps.ts";
+import { type Route, type RouteProps } from "./types.ts";
 
 export class SitemapContext {
   #url: string;
@@ -19,10 +25,9 @@ export class SitemapContext {
     this.#manifest = manifest;
     this.#routes = Object.entries(this.#manifest.routes)
       .filter(([path]) => {
-        // const isRootRoute = "./routes" === dirname(path);
         const file = basename(path);
         const fileName = file.replace(extname(file), "");
-        const isDynamic = !!fileName.match(/^\[.+\]$/)?.length;
+        const isDynamic = !!path.match(/\[.+\]/)?.length;
 
         if (
           isDynamic ||
@@ -34,7 +39,7 @@ export class SitemapContext {
 
         return true;
       })
-      .map(([path, route]) => {
+      .map(([path]) => {
         return {
           pathName: path
             .replace(extname(path), "")
@@ -89,10 +94,15 @@ export class SitemapContext {
   }
 
   remove(route: string) {
-	// glob_filter works best with absolute paths
-	// so we need to add the url to the route
-	const matching = filterFiles(this.#routes.map((r) => this.#url + r.pathName), { match: this.#url + route, ignore: this.#globalIgnore })
-	this.#routes = this.#routes.filter((r) => !matching.map((m) => m.replace(this.#url, "")).includes(r.pathName))
+    // glob_filter works best with absolute paths
+    // so we need to add the url to the route
+    const matching = filterFiles(
+      this.#routes.map((r) => this.#url + r.pathName),
+      { match: this.#url + route, ignore: this.#globalIgnore },
+    );
+    this.#routes = this.#routes.filter((r) =>
+      !matching.map((m) => m.replace(this.#url, "")).includes(r.pathName)
+    );
 
     return this;
   }
@@ -105,7 +115,7 @@ export class SitemapContext {
         .map((route) => {
           return `<url>
           <loc>${this.#url}${route.pathName}</loc>
-          <lastmod>${formatYearMonthDate(route.lastmod??new Date())}</lastmod>
+          <lastmod>${formatYearMonthDate(route.lastmod ?? new Date())}</lastmod>
           <changefreq>${route.changefreq ?? "daily"}</changefreq>
           <priority>${route.priority ?? "0.8"}</priority>
         </url>`;
@@ -121,20 +131,16 @@ export class SitemapContext {
     });
   }
 
-  // async save() {
-  //   const outPath = join(this.#staticDir, "sitemap.xml");
-
-  //   try {
-  //     const content = this.generate();
-
-  //     await ensureFile(outPath);
-
-  //     return Deno.writeTextFile(outPath, content);
-  //   } catch (e) {
-  //     console.warn(e.message);
-  //     return null;
-  //   }
-  // }
+  async save(staticDir: string) {
+    const outPath = join(staticDir, "sitemap.xml");
+    try {
+      const content = this.generate();
+      await ensureFile(outPath);
+      return Deno.writeTextFile(outPath, content);
+    } catch (e) {
+      if (e instanceof Error) console.warn(e.message);
+    }
+  }
 }
 
 function formatYearMonthDate(date: Date) {

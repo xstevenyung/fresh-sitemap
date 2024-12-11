@@ -1,5 +1,9 @@
 {
   "tasks": {
     "test": "deno test --allow-env --allow-write --allow-read"
+  },
+  "imports": {
+    "preact": "https://esm.sh/preact@10.22.0",
+    "preact/": "https://esm.sh/preact@10.22.0/"
   }
 }
