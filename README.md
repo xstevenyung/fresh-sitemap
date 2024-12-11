@@ -78,6 +78,26 @@ await start(manifest, {
 });
 ```
 
+*If needed, sitemap.xml can be generated as a static file in Fresh `staticDir`*
+
+```ts
+// ./main.ts
+import { start } from "$fresh/server.ts";
+import manifest from "./fresh.gen.ts";
+
+import { freshSEOPlugin } from "https://deno.land/x/fresh_seo/mod.ts";
+
+await start(manifest, {
+  plugins: [
+    freshSEOPlugin(manifest, {
+        static: true
+    })
+  ],
+});
+```
+
+While `static:true`, sitemap.xml also generates during Fresh `deno task build`.
+
 <br>
 
 ## Testing

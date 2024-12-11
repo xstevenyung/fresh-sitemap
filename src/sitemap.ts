@@ -4,7 +4,14 @@
 /// <reference lib="deno.ns" />
 /// <reference lib="deno.unstable" />
 
-import { basename, extname, filterFiles, Manifest } from "./deps.ts";
+import {
+  basename,
+  ensureFile,
+  extname,
+  filterFiles,
+  join,
+  Manifest,
+} from "./deps.ts";
 import { type Route, type RouteProps } from "./types.ts";
 
 export class SitemapContext {
@@ -124,20 +131,16 @@ export class SitemapContext {
     });
   }
 
-  // async save() {
-  //   const outPath = join(this.#staticDir, "sitemap.xml");
-
-  //   try {
-  //     const content = this.generate();
-
-  //     await ensureFile(outPath);
-
-  //     return Deno.writeTextFile(outPath, content);
-  //   } catch (e) {
-  //     console.warn(e.message);
-  //     return null;
-  //   }
-  // }
+  async save(staticDir: string) {
+    const outPath = join(staticDir, "sitemap.xml");
+    try {
+      const content = this.generate();
+      await ensureFile(outPath);
+      return Deno.writeTextFile(outPath, content);
+    } catch (e) {
+      if (e instanceof Error) console.warn(e.message);
+    }
+  }
 }
 
 function formatYearMonthDate(date: Date) {
