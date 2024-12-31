@@ -84,10 +84,6 @@
     "https://deno.land/std@0.85.0/path/posix.ts": "1408f8ba482a4dc5fc0a7cd7be28bbbff9608d2b3b5ffdcf288ae1228d959add",
     "https://deno.land/std@0.85.0/path/separator.ts": "8fdcf289b1b76fd726a508f57d3370ca029ae6976fcde5044007f062e643ff1c",
     "https://deno.land/std@0.85.0/path/win32.ts": "6ca052f54500f00cd7a5172fde62900626ab620dcd5bdcf4e6f5695d001ddef6",
-    "https://deno.land/x/glob_filter@1.0.0/mod.ts": "fd2e0a2729f800a6dd9e468500e24bf2c086f24ef63ee4245e1b50a7832c270d",
-    "https://deno.land/x/hackle@1.1.1/init.ts": "d058b0073b27ad0a1e7035af75a280c4a261d4b521b2c1a0129ef694c96b731c",
-    "https://deno.land/x/hackle@1.1.1/lib/get-date-format.ts": "9f117dd5e0925c188fe05da0dd4bda0bc3f97f62d43880bc853cc1c6526cb5e9",
-    "https://deno.land/x/hackle@1.1.1/mod.ts": "5848364fc9fa40cd8c64b3546ca6c94b56130af6b1aa44cabca3cf437481e930",
-    "https://deno.land/x/hackle@1.1.1/tools.ts": "ad92dd10a63d4d8022680d10b504848e5be0ebce81aa05ddc897af9baac9e1e1"
+    "https://deno.land/x/glob_filter@1.0.1/mod.ts": "16f6f613e723552c586e42c10c425bc86510c3d7d7b254348690f726e1cc8d56"
   }
 }
