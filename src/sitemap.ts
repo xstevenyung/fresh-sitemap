@@ -4,8 +4,7 @@
 /// <reference lib="deno.ns" />
 /// <reference lib="deno.unstable" />
 
-import { filterFiles } from "https://deno.land/x/glob_filter@1.0.0/mod.ts";
-import { basename, extname } from "./deps.ts";
+import { basename, extname, filterFiles } from "./deps.ts";
 import { type Manifest, type Route, type RouteProps } from "./types.ts";
 
 export class SitemapContext {
